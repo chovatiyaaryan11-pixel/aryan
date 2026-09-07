@@ -3,11 +3,15 @@ from pathlib import Path
 from typing import Optional
 
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from sqlalchemy import create_engine, String, Text, DateTime, Integer
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, sessionmaker
 
-DB_PATH = Path(__file__).resolve().parents[2] / "aryan_ai.db"
+BASE_DIR = Path(__file__).resolve().parent
+DB_PATH = BASE_DIR.parent / "aryan_ai.db"
+STATIC_DIR = BASE_DIR / "static"
 engine = create_engine(f"sqlite:///{DB_PATH}", connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(bind=engine)
 
@@ -36,7 +40,8 @@ class Task(Base):
 
 
 Base.metadata.create_all(engine)
-app = FastAPI(title="Aryan Personal AI Assistant", version="0.1.0")
+app = FastAPI(title="Aryan Personal AI Assistant", version="0.2.0")
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 
 class MemoryInput(BaseModel):
@@ -57,7 +62,7 @@ class ChatInput(BaseModel):
 
 @app.get("/")
 def root():
-    return {"name": "Aryan Personal AI Assistant", "status": "running"}
+    return FileResponse(STATIC_DIR / "index.html")
 
 
 @app.get("/health")
@@ -108,11 +113,11 @@ def chat(data: ChatInput):
     context = [f"{m.category}: {m.content}" for m in memories]
     pending = [t.title for t in tasks]
     return {
-        "response": "AI provider is not connected yet. The assistant core is running.",
+        "response": "The ChatGPT-style interface is running. The personal AI brain is not connected yet, so I cannot generate intelligent answers until an AI provider API key is configured.",
         "message": data.message,
         "relevant_memory": context,
         "pending_tasks": pending,
-        "next_step": "Add OPENAI_API_KEY to .env and connect the AI service."
+        "next_step": "Connect an AI provider in the next development phase."
     }
 
 
