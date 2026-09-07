@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aryan AI Assistant</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><div class="logo">A</div><div><strong>Aryan AI</strong><span>Personal Assistant</span></div></div>
+      <button class="new-chat" id="newChat">＋ New chat</button>
+      <nav>
+        <button class="nav-item active" data-panel="chat">⌕ <span>Chat</span></button>
+        <button class="nav-item" data-panel="tasks">✓ <span>Tasks</span></button>
+        <button class="nav-item" data-panel="memories">◈ <span>Memory</span></button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="status-dot"></div><span>Assistant online</span>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div><h1 id="pageTitle">Aryan AI</h1><p id="subtitle">Your personal AI assistant</p></div>
+        <button class="refresh" id="refreshData">↻ Refresh</button>
+      </header>
+
+      <section id="chatPanel" class="panel active-panel">
+        <div class="chat-area" id="chatArea">
+          <div class="welcome" id="welcome">
+            <div class="welcome-logo">A</div>
+            <h2>How can I help you today?</h2>
+            <p>I can help organize tasks, remember important information, and become your daily personal AI assistant.</p>
+            <div class="suggestions">
+              <button class="suggestion">What should I focus on today?</button>
+              <button class="suggestion">Show my pending tasks</button>
+              <button class="suggestion">Help me plan my business work</button>
+              <button class="suggestion">What do you remember about me?</button>
+            </div>
+          </div>
+        </div>
+        <div class="composer-wrap">
+          <form class="composer" id="chatForm">
+            <textarea id="messageInput" placeholder="Message Aryan AI..." rows="1"></textarea>
+            <button type="submit" id="sendButton" aria-label="Send message">↑</button>
+          </form>
+          <p class="hint">Aryan AI may make mistakes. Review important information and actions.</p>
+        </div>
+      </section>
+
+      <section id="tasksPanel" class="panel">
+        <div class="panel-card wide">
+          <div class="panel-heading"><div><h2>Your tasks</h2><p>Manage your daily priorities.</p></div><button class="primary" id="showTaskForm">+ Add task</button></div>
+          <form class="inline-form hidden" id="taskForm">
+            <input id="taskTitle" placeholder="Task title" required />
+            <input id="taskDescription" placeholder="Description (optional)" />
+            <select id="taskPriority"><option value="high">High priority</option><option value="medium" selected>Medium priority</option><option value="low">Low priority</option></select>
+            <button class="primary" type="submit">Save task</button>
+          </form>
+          <div id="taskList" class="data-list"></div>
+        </div>
+      </section>
+
+      <section id="memoriesPanel" class="panel">
+        <div class="panel-card wide">
+          <div class="panel-heading"><div><h2>Personal memory</h2><p>Store important details that your assistant should remember.</p></div><button class="primary" id="showMemoryForm">+ Add memory</button></div>
+          <form class="memory-form hidden" id="memoryForm">
+            <select id="memoryCategory"><option value="general">General</option><option value="business">Business</option><option value="education">Education</option><option value="goals">Goals</option><option value="preferences">Preferences</option></select>
+            <textarea id="memoryContent" placeholder="Example: I want to build a career in the finance sector." required></textarea>
+            <select id="memoryImportance"><option value="10">Very important</option><option value="8">Important</option><option value="5" selected>Normal</option><option value="2">Low</option></select>
+            <button class="primary" type="submit">Save memory</button>
+          </form>
+          <div id="memoryList" class="data-list"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="/static/app.js"></script>
+</body>
+</html>
